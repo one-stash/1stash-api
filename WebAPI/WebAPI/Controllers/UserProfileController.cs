@@ -15,13 +15,17 @@ namespace WebAPI.Controllers
     public class UserProfileController : ControllerBase
     {
         private UserManager<ApplicationUser> _userManager;
-        public UserProfileController(UserManager<ApplicationUser> userManager)
+		private AuthenticationContext _context;
+
+		public UserProfileController(UserManager<ApplicationUser> userManager, AuthenticationContext context)
         {
             _userManager = userManager;
+			_context = context;
         }
 
         [HttpGet]
         [Authorize]
+		[Route("GetUserProfile")]
         //GET : /api/UserProfile
         public async Task<Object> GetUserProfile() {
             string userId = User.Claims.First(c => c.Type == "UserID").Value;
@@ -35,5 +39,14 @@ namespace WebAPI.Controllers
                  user.UserName
             };
         }
-    }
+		[HttpGet]
+		[Authorize]
+		[Route("GetAllUser")]
+		//GET : /api/UserProfile
+		public IEnumerable<ApplicationUser> GetAllMembers()
+		{
+			var query = _context.Set<ApplicationUser>().ToList();
+			return query;
+		}
+	}
 }
