@@ -57,10 +57,10 @@ namespace WebAPI.Controllers
 		[HttpPost]
 		[Route("Login")]
 		//POST : /api/ApplicationUser/Login
-		public async Task<IActionResult> Login( ApplicationUser query)
+		public async Task<IActionResult> Login(LoginModel model)
 		{
-			var user = await _userManager.FindByEmailAsync(query.Email);
-			if (user != null && await _userManager.CheckPasswordAsync(user, query.Password))
+			var user = await _userManager.FindByEmailAsync(model.Email);
+			if (user != null && await _userManager.CheckPasswordAsync(user, model.Password))
 			{
 				var tokenDescriptor = new SecurityTokenDescriptor
 				{
@@ -82,10 +82,10 @@ namespace WebAPI.Controllers
 		[HttpPost]
 		[Route("Admin")]
 		//POST : /api/ApplicationUser/Login
-		public async Task<IActionResult> AdminLogin(ApplicationUser query)
+		public async Task<IActionResult> AdminLogin(LoginModel model)
 		{
-			var user = await _userManager.FindByEmailAsync(query.Email);
-			if (user != null && await _userManager.CheckPasswordAsync(user, query.Password))
+			var user = await _userManager.FindByEmailAsync(model.Email);
+			if (user != null && await _userManager.CheckPasswordAsync(user, model.Password))
 			{
 				var tokenDescriptor = new SecurityTokenDescriptor
 				{
